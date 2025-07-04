@@ -388,9 +388,11 @@ getDataBtn.addEventListener('click', async () => {
 
     for (const sheetUrl of arr) {
       requestList.push(new Promise(resolve => {
+        log(sheetUrl)
         log('💬正在写入 Chatbot 贴文比例')
         google.script.run.withFailureHandler(error => {
-          console.error(error.message)
+          log(sheetUrl)
+          
           log('❌写入 Chatbot 贴文比例')
           log(error.message)
         }).withSuccessHandler(result => {
