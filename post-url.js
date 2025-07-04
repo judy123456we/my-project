@@ -151,6 +151,7 @@ manualQuery.addEventListener('click', async () => {
         resolve(JSON.parse(result))
       }).core('getChatbotSheetStr', config.init.myName)
     })
+    
     config.chatbotSheetList = chatbotSheetList.result
 
     const requestList = []
@@ -332,6 +333,22 @@ getDataBtn.addEventListener('click', async () => {
       resolve(result)
     }).core('getChatbotSheetStr', config.init.myName)
   }))
+
+
+    // 获取 Chatbot 表链接
+  requestList.push(new Promise(resolve => {
+    log('💬正在获取 Chatbot2 表')
+    google.script.run.withFailureHandler(error => {
+      console.error(error.message)
+      log('❌获取 Chatbot2 表 失败')
+      log(error.message)
+    }).withSuccessHandler(result => {
+      log('✅已获取 Chatbot 表')
+      resolve(result)
+    }).core('getChatbotSheetStr2', config.init.myName)
+  }))
+
+  
   const origSheetName = ['🚩陌生信息', '🚩每日见证线索', '🚩一场线索', '🚩教会线索']
   for (const sheetName of origSheetName) {
     requestList.push(new Promise(resolve => {
@@ -353,16 +370,17 @@ getDataBtn.addEventListener('click', async () => {
     config.jianZhengData.church = arr.filter(x => x.type === '交教会线索')[0].result.church
     config.jianZhengData.churchMinify = arr.filter(x => x.type === '交教会线索')[0].result.churchMinify
     config.chatbotSheetList = arr.filter(x => x.type === 'Chatbot表链接').map(x => x.result).flat()
+    config.chatbotSheetList2 = arr.filter(x => x.type === 'Chatbot表链接2').map(x => x.result).flat()
     config.origSheetUser = arr.filter(x => x.type === '库存线索').map(x => x.result).flat()
   })
 
   const requestList2 = []
-  const chatbotSheetList = config.chatbotSheetList.map(x => x[1])
+  const chatbotSheetList2 = config.chatbotSheetList2.map(x => x[1])
   log('✔️ 所有比例数据：', chatbotPercentageResult)
 
 
   
-  const chatbotSheetListArr = splitArray(chatbotSheetList, 10)
+  const chatbotSheetListArr = splitArray(chatbotSheetList2, 10)
   const chatbotPercentageResult = []
   // 获取 Chatbot 表贴文比例
   for (const arr of chatbotSheetListArr) {
