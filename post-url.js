@@ -177,10 +177,12 @@ manualQuery.addEventListener('click', async () => {
         log(error.message)
       }).withSuccessHandler(result => {
         log('✅已获取 Chatbot 表')
+         console.log(JSON.parse(result))
         resolve(JSON.parse(result))
+        
       }).core('getChatbotSheetStr2', config.init.myName)
     })
-
+   
 
     
     config.chatbotSheetList = chatbotSheetList.result
