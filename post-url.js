@@ -34,6 +34,8 @@ function formatDateStr (date) {
   }
 }
 
+
+
 /**
  * @description 按个数拆分数组
  * @param {Array} array - 原始数组
@@ -121,6 +123,11 @@ convImage.addEventListener('click', async () => {
   }
 })
 
+
+
+
+
+
 // 手动查询
 manualQuery.addEventListener('click', async () => {
   log('💬正在 获取线索信息')
@@ -137,6 +144,11 @@ manualQuery.addEventListener('click', async () => {
       }
     }).core('manualMatchPostInfoStr')
   })
+
+
+
+
+  
   // 没有 Chatbot 表线索，需要先获取
   if (!config.chatbotQueryUser) {
     // 获取chatbot表清单
@@ -151,8 +163,28 @@ manualQuery.addEventListener('click', async () => {
         resolve(JSON.parse(result))
       }).core('getChatbotSheetStr', config.init.myName)
     })
+
+
+    
+  // 没有 Chatbot2 表线索，需要先获取chatbot2
+  if (!config.chatbotQueryUser) {
+    // 获取chatbot表清单
+    const chatbotSheetList2 = await new Promise(resolve => {
+      log('💬正在获取 Chatbot 表')
+      google.script.run.withFailureHandler(error => {
+        console.error(error.message)
+        log('❌获取 Chatbot 表 失败')
+        log(error.message)
+      }).withSuccessHandler(result => {
+        log('✅已获取 Chatbot 表')
+        resolve(JSON.parse(result))
+      }).core('getChatbotSheetStr2', config.init.myName)
+    })
+
+
     
     config.chatbotSheetList = chatbotSheetList.result
+    config.chatbotSheetList2=chatbotSheetList2.result
 
     const requestList = []
     const userListFormat = userList.map(x => x[1]).filter(x => x[0])
@@ -219,6 +251,8 @@ manualQuery.addEventListener('click', async () => {
     }
   }).core('manualMatchPostInfoWrite', result)
 })
+
+
 
 // 清空数据
 cleanData.addEventListener('click', () => {
@@ -305,6 +339,8 @@ getDataBtn.addEventListener('click', async () => {
       churchEndDate: config.init.churchEndDate
     })
   }))
+
+  
   // 获取交教会线索
   requestList.push(new Promise(resolve => {
     log('💬正在获取 交教会线索')
@@ -321,21 +357,21 @@ getDataBtn.addEventListener('click', async () => {
       churchEndDate: config.init.churchEndDate
     })
   }))
-  // // 获取 Chatbot 表链接
-  // requestList.push(new Promise(resolve => {
-  //   log('💬正在获取 Chatbot 表')
-  //   google.script.run.withFailureHandler(error => {
-  //     console.error(error.message)
-  //     log('❌获取 Chatbot 表 失败')
-  //     log(error.message)
-  //   }).withSuccessHandler(result => {
-  //     log('✅已获取 Chatbot 表')
-  //     resolve(result)
-  //   }).core('getChatbotSheetStr', config.init.myName)
-  // }))
-
-
     // 获取 Chatbot 表链接
+    requestList.push(new Promise(resolve => {
+      log('💬正在获取 Chatbot 表')
+      google.script.run.withFailureHandler(error => {
+        console.error(error.message)
+        log('❌获取 Chatbot 表 失败')
+        log(error.message)
+      }).withSuccessHandler(result => {
+        log('✅已获取 Chatbot 表')
+        resolve(result)
+      }).core('getChatbotSheetStr', config.init.myName)
+    }))
+
+
+    // 获取 统计男女比例的Chatbot 表链接
   requestList.push(new Promise(resolve => {
     log('💬正在获取 Chatbot2 表')
     google.script.run.withFailureHandler(error => {
