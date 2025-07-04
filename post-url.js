@@ -375,7 +375,7 @@ getDataBtn.addEventListener('click', async () => {
   })
 
   const requestList2 = []
-  const chatbotSheetList2 = config.chatbotSheetList2.map(x => x[1])
+  const chatbotSheetList2 = config.chatbotSheetList2.map(x => x[0])
   log('✔️ 所有比例数据：', chatbotPercentageResult)
 
 
