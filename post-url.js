@@ -66,7 +66,7 @@ function splitArray2D(array, subNum) {
   }
   return newArray
 }
-
+console.log('----1111111111111----')
 
 // 配置
 const config = {}
