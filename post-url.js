@@ -427,7 +427,7 @@ getDataBtn.addEventListener('click', async () => {
         log(sheetUrl)
         log('💬正在写入 Chatbot 贴文比例')
         google.script.run.withFailureHandler(error => {
-          log(sheetUrl)
+          log('数据表格：'+sheetUrl)
           
           log('❌写入 Chatbot 贴文比例')
           log(error.message)
