@@ -321,18 +321,18 @@ getDataBtn.addEventListener('click', async () => {
       churchEndDate: config.init.churchEndDate
     })
   }))
-  // 获取 Chatbot 表链接
-  requestList.push(new Promise(resolve => {
-    log('💬正在获取 Chatbot 表')
-    google.script.run.withFailureHandler(error => {
-      console.error(error.message)
-      log('❌获取 Chatbot 表 失败')
-      log(error.message)
-    }).withSuccessHandler(result => {
-      log('✅已获取 Chatbot 表')
-      resolve(result)
-    }).core('getChatbotSheetStr', config.init.myName)
-  }))
+  // // 获取 Chatbot 表链接
+  // requestList.push(new Promise(resolve => {
+  //   log('💬正在获取 Chatbot 表')
+  //   google.script.run.withFailureHandler(error => {
+  //     console.error(error.message)
+  //     log('❌获取 Chatbot 表 失败')
+  //     log(error.message)
+  //   }).withSuccessHandler(result => {
+  //     log('✅已获取 Chatbot 表')
+  //     resolve(result)
+  //   }).core('getChatbotSheetStr', config.init.myName)
+  // }))
 
 
     // 获取 Chatbot 表链接
